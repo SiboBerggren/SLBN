@@ -1,5 +1,0 @@
-hej;
-
-detta är ett test;
-
-\end{re}
