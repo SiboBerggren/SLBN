@@ -1,0 +1,49 @@
+###############################################################################
+# Drug test example.
+# RVs, drug (D):1,0, increased IB (IB):1,0, decreased appetite (DA):1,0, 
+# CRP-level (CRP): 1,0, breakout (B): 1,0
+# Structure:                  
+#                     D
+#                   /   \
+#                  v     v
+#                  IB    DA
+#                   \   /
+#                    v v
+#                     CRP -> B
+#
+###############################################################################
+
+draw <- function(n){
+  D<-sample(c(1,0), n, replace=TRUE, prob=c(pa<-0.5,1-pa)); D<-as.integer(D);
+  IB<-integer(n);
+  for(i in seq(n)){             
+    if(D[i]==1){IB[i]<-sample(c(1,0), 1, prob=c(pc<-0.9,1-pc));
+    }else{IB[i]<-sample(c(1,0), 1, prob=c(pc<-0.25,1-pc));}
+  }
+  DA<-integer(n);
+  for(i in seq(n)){             
+    if(D[i]==1){DA[i]<-sample(c(1,0), 1, prob=c(pc<-0.8,1-pc));
+    }else{DA[i]<-sample(c(1,0), 1, prob=c(pc<-0.2,1-pc));}
+  }
+  CRP<-integer(n);
+  for(i in seq(n)){             
+    if(IB[i]+DA[i]==2){            ##IB=DA=1
+      CRP[i]<-sample(c(1,0), 1, prob=c(pc<-0.1,1-pc));
+    }else if(IB[i]==1){            ##IB=1, DA=0
+      CRP[i]<-sample(c(1,0), 1, prob=c(pc<-0.25,1-pc));
+    }else if(DA[i]==1){            ##IB=0,DA=1
+      CRP[i]<-sample(c(1,0), 1, prob=c(pc<-0.4,1-pc));
+    }else{                         ##IB=DA=0
+      CRP[i]<-sample(c(1,0), 1, prob=c(pc<-0.9,1-pc));
+    }
+  }
+  B<-integer(n);
+  for(i in seq(n)){             
+    if(CRP[i]==1){B[i]<-sample(c(1,0), 1, prob=c(pc<-0.95,1-pc));
+    }else{B[i]<-sample(c(1,0), 1, prob=c(pc<-0.2,1-pc));}
+  }
+  D<-as.factor(D); IB<-as.factor(IB); DA<-as.factor(DA); 
+  CRP<-as.factor(CRP); B<-as.factor(B);
+  DATA <- data.frame(D,IB,DA,CRP,B); ##str(DATA);
+  return(DATA)
+}
