@@ -44,6 +44,6 @@ draw <- function(n){
   }
   D<-as.factor(D); IB<-as.factor(IB); DA<-as.factor(DA); 
   CRP<-as.factor(CRP); B<-as.factor(B);
-  DATA <- data.frame(D,IB,DA,CRP,B); ##str(DATA);
+  DATA <- data.frame(D,IB,DA,CRP,B);
   return(DATA)
 }
